@@ -1,11 +1,12 @@
 var urllib = require('urllib');
 var htmlparser = require("htmlparser2");
+var q = require('q');
 
 //ClassesArray
 
 var listClass = function() {
 
-    var defer = require('q').defer();
+    var defer = q.defer();
 
     return {
         parserUrl: function(url, fn) {

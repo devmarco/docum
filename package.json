@@ -1,0 +1,25 @@
+{
+  "name": "docum",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/devmarco/docum"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/devmarco/docum/issues"
+  },
+  "homepage": "https://github.com/devmarco/docum",
+  "devDependencies": {
+    "htmlparser2": "^3.8.2",
+    "lodash": "^2.4.1",
+    "q": "^1.1.2",
+    "urllib": "^2.2.1"
+  }
+}

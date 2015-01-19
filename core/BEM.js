@@ -1,44 +1,83 @@
 var _ = require('lodash');
 
 function BEM() {
-	var mClass = 0,
-		cClass = 1,
-		classMasters = [],
-		classObject = [];
+    var mClass = 0,
+        cClass = 1,
+        classMasters = [],
+        classObject = [];
 
-	return {
-		filter: function(cls) {
-			var _self = this;
+    return {
+        filter: function(cls) {
+            var _self = this;
 
-			for (mClass; mClass < cls.length; mClass++) {
-				var childs = cls[mClass].split('__');
+            for (mClass; mClass < cls.length; mClass++) {
+                var masters,
+                    childs;
 
-				if (!_.contains(classMasters, childs[0])) {
+                childs = cls[mClass].split('__');
+                masters = _self.setMasters(childs);
+            }
 
-					classMasters.push(childs[0]);
+            return classObject;
+        },
+        setChilds: function(index, master, child) {
+            // console.log('ITEM', master, child);
 
-					var index = classObject.push({
-						class: childs[0],
-						childs: []
-					});
+            // classObject[index].childs.push({
+            //     class: child,
+            //     childs: []
+            // });
+        },
+        setMasters: function(childs) {
+            var _self = this;
 
-					if (childs.length > 1) 
-						_self.setChilds(childs);
-					
+            if (!_.contains(classMasters, childs[0])) {
 
-				} else {
-					if (childs.length > 1) 
-						_self.setChilds(childs);
-					
-				}
-			}
+                classMasters.push(childs[0]);
 
-			return classObject;
-		},
-		setChilds: function(childs) {
+                var index = classObject.push({
+                    class: childs[0],
+                    childs: []
+                });
 
-		}
-	}
+                switch (childs.length) {
+                    case 1:
+                        break;
+                    case 2:
+                    	var i = 1;
+
+                        for (i in classObject[index -1].childs) {
+                            if (classObject[index -1].childs[0].class !== childs[i])
+                                classObject[index -1].childs.push({
+                                    class: childs[1],
+                                    childs: []
+                                });
+                        }
+
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        break;
+                    case 6:
+                        break;
+                    case 7:
+                        break;
+                }
+
+                
+
+            } else {
+                //console.log("TRUE", childs);
+            }
+
+            console.log(classObject[0].childs[1]);
+            
+            return classObject;
+        }
+    }
 }
 
 module.exports = BEM();
