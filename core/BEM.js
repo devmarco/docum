@@ -20,61 +20,45 @@ function BEM() {
 
             return classObject;
         },
-        setChilds: function(index, master, child) {
-            // console.log('ITEM', master, child);
+        setChilds: function(childs, index) {
+            var slug = '',
+                i = 0;
 
-            // classObject[index].childs.push({
-            //     class: child,
-            //     childs: []
-            // });
+            for (i; i < childs.length; i++) {
+                i === (childs.length - 1) ? slug += childs[i] : slug += childs[i] + '__';
+            }
+
+            for (i in classObject) {
+                if (classObject[i].class === childs[0] && childs.length === 2) {
+                    classObject[index - 1].childs.push({
+                        class: slug,
+                        childs: []
+                    });
+                }
+            }
         },
         setMasters: function(childs) {
-            var _self = this;
+            var index,
+                _self = this;
 
+            //Define the master classes
             if (!_.contains(classMasters, childs[0])) {
 
                 classMasters.push(childs[0]);
 
-                var index = classObject.push({
+                index = classObject.push({
                     class: childs[0],
                     childs: []
                 });
 
-                switch (childs.length) {
-                    case 1:
-                        break;
-                    case 2:
-                    	var i = 1;
-
-                        for (i in classObject[index -1].childs) {
-                            if (classObject[index -1].childs[0].class !== childs[i])
-                                classObject[index -1].childs.push({
-                                    class: childs[1],
-                                    childs: []
-                                });
-                        }
-
-                        break;
-                    case 3:
-                        break;
-                    case 4:
-                        break;
-                    case 5:
-                        break;
-                    case 6:
-                        break;
-                    case 7:
-                        break;
-                }
-
-                
+                if (childs.length > 1)
+                    _self.setChilds(childs, index);
 
             } else {
-                //console.log("TRUE", childs);
-            }
+                if (childs.length > 1)
+                    _self.setChilds(childs, index);
+            };
 
-            console.log(classObject[0].childs[1]);
-            
             return classObject;
         }
     }

@@ -9,7 +9,6 @@ var BEM = require("./core/BEM");
     classes.parserUrl('http://devmarco.github.io', function(myClasses) {
         myClasses.then(function(cls) {
             var classes = BEM.filter(cls);
-            console.log(classes);
         });
     });
 }());
