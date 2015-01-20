@@ -1,82 +1,144 @@
 var _ = require('lodash');
 
 function BEM() {
-    var mClass = 0,
-        cClass = 1,
-        classMasters = [],
-        classObject = [];
-
     return {
         filter: function(cls) {
-            var _self = this;
+            var _self = this,
+                bemObject;
 
-            for (mClass; mClass < cls.length; mClass++) {
-                var masters,
-                    childs;
+            _self.filterMasters(cls);
 
-                childs = cls[mClass].split('__');
-                masters = _self.setMasters(childs);
+            return true;
+        },
+        filterMasters: function(cls) {
+            var _self = this,
+                bemObject = [],
+                blocks = [];
+
+            for (i in cls) {
+                //Split the class to pick up the children
+                var childs = _self.getChilds(cls, cls[i].split('__'));
+
+                //Get the master blocks
+                if (blocks.indexOf(childs[0]) === -1) {
+                    blocks.push(childs[0]);
+
+                    bemObject.push({
+                        block: childs[0],
+                        content: []
+                    });
+
+                    if (childs.length > 1)
+                    	_self.setBlocks(bemObject, childs, blocks);
+                } else {
+                    if (childs.length > 1)
+                    	_self.setBlocks(bemObject, childs, blocks);
+                }
             }
 
-            return classObject;
+            return bemObject;
         },
-        setChilds: function(childs, index) {
-            var slug = '',
+        setBlocks: function(obj, childs, blocks) {
+            var _self = this,
                 i = 0;
 
             for (i; i < childs.length; i++) {
-                i === (childs.length - 1) ? slug += childs[i] : slug += childs[i] + '__';
-            }
+            	var index = blocks.indexOf(childs[0]);
 
-            for (i in classObject) {
-                if (classObject[i].class === childs[0] && childs.length === 2) {
-                    classObject[index - 1].childs.push({
-                        class: slug,
-                        childs: []
-                    });
-                }
+            	if (obj[index].content.length === 0) {
+            		obj[index].content.push({
+            			block: childs[1],
+            			content: []
+            		});
+            	} else {
+            		if (obj[index].content.block)
+            	}
             }
         },
-        setMasters: function(childs) {
-            var index,
-                _self = this;
+        setElements: function(obj, value) {
+            // if (typeof obj !== 'object' || typeof value !== 'object')
+            //     return false;
+        },
+        setModifiers: function() {
 
-            //Define the master classes
-            if (!_.contains(classMasters, childs[0])) {
+        },
+        getChilds: function(cls, splitClass) {
+            var slug = '',
+                childs = [],
+                i = 0;
 
-                classMasters.push(childs[0]);
+            for (i; i < splitClass.length; i++) {
+                var splitClassLenght = (splitClass.length);
 
-                index = classObject.push({
-                    class: childs[0],
-                    childs: []
-                });
+                if (i === 0) {
+                    slug += splitClass[i];
+                } else if (i < splitClassLenght) {
+                    slug += '__' + splitClass[i];
+                } else {
+                    slug += splitClass[i];
+                }
 
-                if (childs.length > 1)
-                    _self.setChilds(childs, index);
+                if (cls.indexOf(splitClass[i]) === -1) {
+                	childs.push({
+                		class: null,
+                		expected: slug
+                	});
+                } else {
+                	childs.push({
+                		class: slug,
+                		expected: slug
+                	});
+                }
+            }
 
-            } else {
-                if (childs.length > 1)
-                    _self.setChilds(childs, index);
-            };
-
-            return classObject;
+            return childs;
         }
     }
 }
 
+
+
 module.exports = BEM();
 
 
-// var scary = {
-// 	master: '.wrapper',
-// 	childs: [
-// 		{
-// 			class: 'wrapper__rows',
-// 			childs: []
-// 		},
-// 		{
-// 			class: 'wrapper__teste',
-// 			childs: []
-// 		}
-// 	]
-// }
+
+
+
+var teste = {
+    block: 'page',
+    content: {
+        block: 'head',
+        mods: [{
+            size: 'big'
+        }, {
+            type: 'buttons'
+        }],
+        content: [{
+            block: 'menu',
+            content: '…'
+        }, {
+            elem: 'column',
+            mods: ['green', 'black'],
+            content: {
+                block: 'logo'
+            }
+        }, {
+            elem: 'column',
+            content: [{
+                block: 'search',
+                content: [{
+                    elem: 'input'
+                }, {
+                    elem: 'button',
+                    content: 'Search'
+                }]
+            }]
+        }, {
+            elem: 'column',
+            content: {
+                block: 'auth',
+                content: '…'
+            }
+        }]
+    }
+}
