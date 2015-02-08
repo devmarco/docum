@@ -29,23 +29,21 @@ function BEM() {
                     });
 
                     if (childs.length > 1)
-                        _self.setBlocks(bemObject, childs, blocks);
+                        _self.setBlocks(bemObject, childs);
 
                 } else {
                     if (childs.length > 1)
-                        _self.setBlocks(bemObject, childs, blocks);
+                        _self.setBlocks(bemObject, childs);
                 }
             }
 
             return bemObject;
         },
-        setBlocks: function(obj, childs, blocks) {
+        setBlocks: function(obj, childs) {
             var _self = this,
                 i = 0;
 
             for (i; i < obj.length; i++) {
-
-                console.log(obj[i].expected, '-----', childs[0].class, childs);
 
                 //['wrapper', 'wrapper__rows', 'wrapper__rows__teste']
 
@@ -59,7 +57,7 @@ function BEM() {
                     }
 
                     switch (childs.length) {
-                        case: 2
+                        case 2:
                         var b = 0;
                         for (b; b < obj[i].content.length; b++) {
                             if (obj[i].content[b].expected !== childs[1].expected) {
@@ -71,7 +69,7 @@ function BEM() {
                             }
                         }
                         break;
-                        case: 3
+                        case 3:
                         var b = 0;
                         for (b; b < obj[i].content.length; b++) {
                             if (obj[i].content[b].expected !== childs[b+1].expected) {
@@ -83,21 +81,21 @@ function BEM() {
                             }
                         }
                         break;
-                        case: 4
+                        case 4:
                         obj[i].content.push({
                             block: childs[1].class,
                             expected: childs[1].expected,
                             content: []
                         });
                         break;
-                        case: 5
+                        case 5:
                         obj[i].content.push({
                             block: childs[1].class,
                             expected: childs[1].expected,
                             content: []
                         });
                         break;
-                        case: 6
+                        case 6:
                         obj[i].content.push({
                             block: childs[1].class,
                             expected: childs[1].expected,
